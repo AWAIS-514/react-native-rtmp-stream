@@ -1,0 +1,71 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#007AFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0051D5;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="androidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3DDC84;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="400" fill="#1a1a2e"/>
+  
+  <!-- iOS Device -->
+  <g transform="translate(100, 50)">
+    <rect x="0" y="0" width="250" height="300" rx="40" fill="url(#iosGrad)"/>
+    <rect x="15" y="50" width="220" height="240" rx="25" fill="#000"/>
+    <rect x="20" y="55" width="210" height="230" rx="20" fill="#1a1a2e"/>
+    
+    <!-- iOS logo -->
+    <circle cx="125" cy="180" r="40" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M 125 140 L 125 160 M 110 155 L 125 160 L 140 155" stroke="#fff" stroke-width="3" fill="none"/>
+    
+    <!-- Live indicator -->
+    <rect x="30" y="65" width="50" height="20" rx="10" fill="#f5576c">
+      <animate attributeName="opacity" values="1;0.6;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+    <text x="55" y="78" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">LIVE</text>
+    
+    <text x="125" y="250" font-family="Arial" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">iOS</text>
+  </g>
+  
+  <!-- Android Device -->
+  <g transform="translate(450, 50)">
+    <rect x="0" y="0" width="250" height="300" rx="40" fill="url(#androidGrad)"/>
+    <rect x="15" y="50" width="220" height="240" rx="25" fill="#000"/>
+    <rect x="20" y="55" width="210" height="230" rx="20" fill="#1a1a2e"/>
+    
+    <!-- Android logo -->
+    <path d="M 125 140 L 110 160 L 125 175 L 140 160 Z" fill="#3DDC84"/>
+    <circle cx="110" cy="150" r="3" fill="#3DDC84"/>
+    <circle cx="140" cy="150" r="3" fill="#3DDC84"/>
+    
+    <!-- Live indicator -->
+    <rect x="30" y="65" width="50" height="20" rx="10" fill="#f5576c">
+      <animate attributeName="opacity" values="1;0.6;1" dur="1s" repeatCount="indefinite" begin="0.5s"/>
+    </rect>
+    <text x="55" y="78" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">LIVE</text>
+    
+    <text x="125" y="250" font-family="Arial" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">Android</text>
+  </g>
+  
+  <!-- Connecting arrow -->
+  <g transform="translate(350, 200)">
+    <path d="M 0 0 L 100 0" stroke="#4CAF50" stroke-width="4" fill="none" marker-end="url(#arrowhead)">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;100,0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <polygon points="0 0, 10 3, 0 6" fill="#4CAF50"/>
+      </marker>
+    </defs>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="380" font-family="Arial" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">
+    iOS &amp; Android Support
+  </text>
+</svg>
+

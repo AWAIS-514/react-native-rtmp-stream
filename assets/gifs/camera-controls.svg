@@ -1,0 +1,65 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="camGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="600" height="400" fill="#1a1a2e"/>
+  
+  <!-- Phone with camera -->
+  <g transform="translate(200, 50)">
+    <rect x="0" y="0" width="200" height="300" rx="30" fill="url(#camGrad)"/>
+    <rect x="10" y="40" width="180" height="250" rx="20" fill="#000"/>
+    <rect x="15" y="45" width="170" height="240" rx="15" fill="#0a0a1e"/>
+    
+    <!-- Camera view -->
+    <rect x="25" y="60" width="150" height="200" rx="10" fill="#1a1a2e"/>
+    <circle cx="100" cy="160" r="40" fill="rgba(100,200,255,0.3)">
+      <animate attributeName="r" values="40;45;40" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Controls -->
+    <!-- Front/Back toggle -->
+    <g transform="translate(30, 280)">
+      <rect x="0" y="0" width="60" height="25" rx="12" fill="#4CAF50" opacity="0.8">
+        <animate attributeName="fill" values="#4CAF50;#2196F3;#4CAF50" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <text x="30" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">
+        <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+        FRONT
+      </text>
+    </g>
+    
+    <!-- Torch -->
+    <g transform="translate(110, 280)">
+      <circle cx="15" cy="12" r="12" fill="#FF9800" opacity="0.5">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <text x="15" y="16" font-family="Arial" font-size="12" fill="white" text-anchor="middle">⚡</text>
+    </g>
+  </g>
+  
+  <!-- Control labels -->
+  <g transform="translate(50, 100)">
+    <circle cx="0" cy="0" r="8" fill="#4CAF50"/>
+    <text x="20" y="5" font-family="Arial" font-size="16" fill="#fff">Front/Back Camera</text>
+  </g>
+  
+  <g transform="translate(50, 140)">
+    <circle cx="0" cy="0" r="8" fill="#FF9800"/>
+    <text x="20" y="5" font-family="Arial" font-size="16" fill="#fff">Torch/Flash</text>
+  </g>
+  
+  <g transform="translate(50, 180)">
+    <circle cx="0" cy="0" r="8" fill="#2196F3"/>
+    <text x="20" y="5" font-family="Arial" font-size="16" fill="#fff">Zoom Control</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="380" font-family="Arial" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">
+    Camera Controls
+  </text>
+</svg>
+
