@@ -730,7 +730,7 @@ MIT
 **Nitensclue**
 
 - Website: [https://nitensclue.com](https://nitensclue.com)
-- GitHub: [@nitensclue](https://github.com/Awais-514)
+- GitHub: [@Awais-514](https://github.com/Awais-514)
 
 ## Support
 
