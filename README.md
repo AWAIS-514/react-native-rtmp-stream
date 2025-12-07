@@ -5,56 +5,58 @@
 [![npm version](https://img.shields.io/npm/v/react-native-rtmp-stream.svg)](https://www.npmjs.com/package/react-native-rtmp-stream)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-rtmp-stream.svg)](https://www.npmjs.com/package/react-native-rtmp-stream)
 
-A powerful React Native library for RTMP/RTMPS live streaming with full iOS and Android support. Optimized for Mux, YouTube Live, Twitch, and other streaming platforms.
-
-**Created by [Nitensclue](https://nitensclue.com)**
+A production-ready React Native library for RTMP/RTMPS live streaming with comprehensive iOS and Android support. Optimized for Mux, YouTube Live, Twitch, and other major streaming platforms.
 
 ## Features
 
-<div align="center">
+### Full RTMP/RTMPS Support
 
-### ✅ Full RTMP/RTMPS Support
 ![RTMP Support](assets/gifs/rtmp-support.svg)
-**Stream to any RTMP server** - Compatible with Mux, YouTube Live, Twitch, and custom RTMP servers
 
-### ✅ iOS & Android
+```
+Stream to any RTMP server with full compatibility for Mux, YouTube Live, Twitch, and custom RTMP servers.
+
+### iOS & Android Support
+
 ![iOS Android](assets/gifs/ios-android.svg)
-```
-**Native implementation for both platforms** - Write once, stream everywhere
 
-### ✅ Hardware Acceleration
+Native implementation for both platforms with a unified API. Write once, deploy everywhere.
+
+### Hardware Acceleration
+
 ![Hardware Acceleration](assets/gifs/hardware-accel.svg)
-```
-**Automatic hardware encoding on iOS (VideoToolbox)** - Optimized performance with minimal CPU usage
 
-### ✅ Portrait & Landscape
+Automatic hardware encoding on iOS using VideoToolbox. Optimized performance with minimal CPU usage.
+
+### Portrait & Landscape Orientation
+
 ![Orientation Support](assets/gifs/orientation.svg)
-```
-**Full orientation support** - Seamless rotation and orientation handling
 
-### ✅ Camera Controls
+Full orientation support with seamless rotation and orientation handling.
+
+### Camera Controls
+
 ![Camera Controls](assets/gifs/camera-controls.svg)
-```
-**Front/back camera, torch, zoom** - Full camera control at your fingertips
 
-### ✅ Audio/Video Configuration
+Complete camera control including front/back camera switching, torch, and zoom functionality.
+
+### Audio/Video Configuration
+
 ![AV Configuration](assets/gifs/av-config.svg)
-```
-**Customizable bitrate, resolution, FPS** - Fine-tune your stream quality
 
-### ✅ Mux Optimized
+Comprehensive configuration options for bitrate, resolution, frame rate, and codec settings.
+
+### Mux Optimized
+
 ![Mux Optimized](assets/gifs/mux-optimized.svg)
-```
-**Tested and optimized for Mux streaming** - Production-ready Mux integration
 
-### ✅ Production Ready
+Tested and optimized for Mux streaming with production-ready integration.
+
+### Production Ready
+
 ![Production Ready](assets/gifs/production-ready.svg)
-```
-**Battle-tested in production environments** - Reliable and stable for real-world use
 
-</div>
-
-**Created by [Nitensclue](https://nitensclue.com)**
+Battle-tested in production environments with proven reliability and stability.
 
 ## Installation
 
@@ -105,11 +107,8 @@ Add to `android/app/src/main/AndroidManifest.xml`:
 /**
  * LiveStreamView Component
  * 
- * A self-contained, reusable component for RTMP/RTMPS live streaming
- * Handles all streaming logic, permissions, and lifecycle management
- * 
- * Created by Nitensclue
- * https://nitensclue.com
+ * A self-contained, reusable component for RTMP/RTMPS live streaming.
+ * Handles all streaming logic, permissions, and lifecycle management.
  */
 
 import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
@@ -124,10 +123,10 @@ import { RTMPStreamPublisher } from '../../../custom_node_modules/react-native-r
  * @param {boolean} autoStart - Automatically start preview when ready (default: true)
  * @param {boolean} debug - Enable automatic event logging (default: false)
  * @param {boolean} frontCamera - Use front camera (default: false)
- * @param {function} onStreamStart - Callback when stream starts successfully
- * @param {function} onStreamStop - Callback when stream stops
- * @param {function} onStreamError - Callback when stream error occurs (code, message)
- * @param {function} onPreviewReady - Callback when camera preview is ready
+ * @param {function} onStreamStart - Callback invoked when stream starts successfully
+ * @param {function} onStreamStop - Callback invoked when stream stops
+ * @param {function} onStreamError - Callback invoked when stream error occurs (code, message)
+ * @param {function} onPreviewReady - Callback invoked when camera preview is ready
  * @param {object} style - Custom styles for the component
  * @param {object} audioParam - Custom audio parameters (optional)
  * @param {object} videoParam - Custom video parameters (optional)
@@ -414,12 +413,12 @@ export default LiveStreamView;
 
 ### Complete Example with Controls
 
-See the [SimpleLiveStream example](./examples/SimpleLiveStream.js) for a complete implementation with:
+See the [SimpleLiveStream example](./examples/SimpleLiveStream.js) for a complete implementation including:
 - Permission handling
 - Start/Stop controls
 - Status indicators
 - Error handling
-- Debug mode enabled
+- Debug mode
 
 ## API Reference
 
@@ -703,20 +702,21 @@ The simplest way to use RTMPStreamPublisher with automatic logging:
 ```
 
 With `debug={true}`, you'll see automatic logs like:
+
 ```
-[RTMPStreamPublisher ios] ✅ Preview Ready (2001): Preview started and camera encoding
-[RTMPStreamPublisher ios] 🔄 Connection Started (2004): connect to rtmps://...
-[RTMPStreamPublisher ios] ✅ Stream Connected (2005): connect success
+[RTMPStreamPublisher ios] Preview Ready (2001): Preview started and camera encoding
+[RTMPStreamPublisher ios] Connection Started (2004): connect to rtmps://...
+[RTMPStreamPublisher ios] Stream Connected (2005): connect success
 ```
 
 ### Complete Example
 
-See the [SimpleLiveStream example](./examples/SimpleLiveStream.js) for a complete implementation with:
+See the [SimpleLiveStream example](./examples/SimpleLiveStream.js) for a complete implementation including:
 - Permission handling
 - Start/Stop controls  
 - Status indicators
 - Error handling
-- Debug mode enabled
+- Debug mode
 
 ## Contributing
 
@@ -739,4 +739,4 @@ For issues, questions, or contributions, please open an issue on [GitHub](https:
 
 ---
 
-Made with ❤️ by [Nitensclue](https://nitensclue.com)
+**Created by [Nitensclue](https://nitensclue.com)**
