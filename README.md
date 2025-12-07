@@ -19,30 +19,37 @@ A powerful React Native library for RTMP/RTMPS live streaming with full iOS and 
 
 ### ✅ iOS & Android
 ![iOS Android](assets/gifs/ios-android.svg)
+```
 **Native implementation for both platforms** - Write once, stream everywhere
 
 ### ✅ Hardware Acceleration
 ![Hardware Acceleration](assets/gifs/hardware-accel.svg)
+```
 **Automatic hardware encoding on iOS (VideoToolbox)** - Optimized performance with minimal CPU usage
 
 ### ✅ Portrait & Landscape
 ![Orientation Support](assets/gifs/orientation.svg)
+```
 **Full orientation support** - Seamless rotation and orientation handling
 
 ### ✅ Camera Controls
 ![Camera Controls](assets/gifs/camera-controls.svg)
+```
 **Front/back camera, torch, zoom** - Full camera control at your fingertips
 
 ### ✅ Audio/Video Configuration
 ![AV Configuration](assets/gifs/av-config.svg)
+```
 **Customizable bitrate, resolution, FPS** - Fine-tune your stream quality
 
 ### ✅ Mux Optimized
 ![Mux Optimized](assets/gifs/mux-optimized.svg)
+```
 **Tested and optimized for Mux streaming** - Production-ready Mux integration
 
 ### ✅ Production Ready
 ![Production Ready](assets/gifs/production-ready.svg)
+```
 **Battle-tested in production environments** - Reliable and stable for real-world use
 
 </div>
@@ -95,63 +102,314 @@ Add to `android/app/src/main/AndroidManifest.xml`:
 ### Simple Example
 
 ```javascript
-import React, { useRef, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { RTMPStreamPublisher } from 'react-native-rtmp-stream';
+/**
+ * LiveStreamView Component
+ * 
+ * A self-contained, reusable component for RTMP/RTMPS live streaming
+ * Handles all streaming logic, permissions, and lifecycle management
+ * 
+ * Created by Nitensclue
+ * https://nitensclue.com
+ */
 
-export default function LiveStream() {
+import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { Platform, StyleSheet, Alert, Linking } from 'react-native';
+import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
+import { RTMPStreamPublisher } from '../../../custom_node_modules/react-native-rtmp-stream';
+
+/**
+ * LiveStreamView Component
+ * 
+ * @param {string} streamURL - Full RTMP/RTMPS stream URL (e.g., "rtmps://global-live.mux.com:443/app/STREAM_KEY")
+ * @param {boolean} autoStart - Automatically start preview when ready (default: true)
+ * @param {boolean} debug - Enable automatic event logging (default: false)
+ * @param {boolean} frontCamera - Use front camera (default: false)
+ * @param {function} onStreamStart - Callback when stream starts successfully
+ * @param {function} onStreamStop - Callback when stream stops
+ * @param {function} onStreamError - Callback when stream error occurs (code, message)
+ * @param {function} onPreviewReady - Callback when camera preview is ready
+ * @param {object} style - Custom styles for the component
+ * @param {object} audioParam - Custom audio parameters (optional)
+ * @param {object} videoParam - Custom video parameters (optional)
+ */
+const LiveStreamView = forwardRef(({
+  streamURL,
+  autoStart = true,
+  debug = false,
+  frontCamera = false,
+  onStreamStart,
+  onStreamStop,
+  onStreamError,
+  onPreviewReady,
+  style,
+  audioParam,
+  videoParam,
+}, ref) => {
   const publisherRef = useRef(null);
+  const [permissionsGranted, setPermissionsGranted] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [isPreviewReady, setIsPreviewReady] = useState(false);
+  const previewReadyRef = useRef(false);
 
+  // Default configuration
+  const getDefaultConfig = () => {
+    const isIOS = Platform.OS === 'ios';
+    return {
+      audioParam: audioParam || {
+        codecid: RTMPStreamPublisher.CODEC_ID_AAC,
+        profile: RTMPStreamPublisher.PROFILE_AAC_LC,
+        samplerate: 32000,
+        channels: 1,
+        bitrate: 32000,
+      },
+      videoParam: videoParam || {
+        codecid: RTMPStreamPublisher.CODEC_ID_H264,
+        profile: RTMPStreamPublisher.PROFILE_H264_MAIN,
+        width: 720,
+        height: 1280,
+        fps: 30,
+        bitrate: 1500000,
+      },
+    };
+  };
+
+  const config = getDefaultConfig();
+
+  // Expose methods via ref
+  useImperativeHandle(ref, () => ({
+    start: () => {
+      if (publisherRef.current) {
+        // Android doesn't need preview ready check, iOS does
+        if (Platform.OS === 'android' || isPreviewReady) {
+          publisherRef.current.start();
+        } else {
+          console.warn('⚠️ Cannot start stream: Preview not ready');
+          if (onStreamError) {
+            onStreamError(2003, 'Preview not ready');
+          }
+        }
+      }
+    },
+    stop: () => {
+      if (publisherRef.current) {
+        publisherRef.current.stop();
+      }
+    },
+    startPreview: () => {
+      if (publisherRef.current) {
+        publisherRef.current.startPreview();
+      }
+    },
+    stopPreview: () => {
+      if (publisherRef.current) {
+        publisherRef.current.stopPreview();
+      }
+    },
+    isStreaming: () => isStreaming,
+    isPreviewReady: () => isPreviewReady,
+  }));
+
+  // Request permissions for both platforms
   useEffect(() => {
-    // Start preview after component mounts
-    setTimeout(() => {
-      publisherRef.current?.startPreview();
-    }, 1000);
+    const requestPermissions = async () => {
+      try {
+        let cameraPermission, micPermission;
+
+        if (Platform.OS === 'android') {
+          // Android: Check permissions first, then request if needed
+          cameraPermission = await check(PERMISSIONS.ANDROID.CAMERA);
+          micPermission = await check(PERMISSIONS.ANDROID.RECORD_AUDIO);
+
+          // Request if not granted
+          if (cameraPermission !== RESULTS.GRANTED) {
+            cameraPermission = await request(PERMISSIONS.ANDROID.CAMERA);
+          }
+          if (micPermission !== RESULTS.GRANTED) {
+            micPermission = await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
+          }
+        } else {
+          // iOS: Check permissions first, then request if needed
+          cameraPermission = await check(PERMISSIONS.IOS.CAMERA);
+          micPermission = await check(PERMISSIONS.IOS.MICROPHONE);
+
+          // Request if not granted
+          if (cameraPermission !== RESULTS.GRANTED) {
+            cameraPermission = await request(PERMISSIONS.IOS.CAMERA);
+          }
+          if (micPermission !== RESULTS.GRANTED) {
+            micPermission = await request(PERMISSIONS.IOS.MICROPHONE);
+          }
+        }
+
+        // Check final permission status
+        if (cameraPermission === RESULTS.GRANTED && micPermission === RESULTS.GRANTED) {
+          setPermissionsGranted(true);
+        } else {
+          // Handle blocked permissions
+          if (cameraPermission === RESULTS.BLOCKED || micPermission === RESULTS.BLOCKED) {
+            Alert.alert(
+              'Permissions Required',
+              'Camera and microphone permissions are required for live streaming. Please enable them in Settings.',
+              [
+                { text: 'Cancel', style: 'cancel' },
+                { 
+                  text: 'Open Settings', 
+                  onPress: () => {
+                    Linking.openSettings();
+                  }
+                }
+              ]
+            );
+          } else {
+            Alert.alert(
+              'Permissions Required',
+              'Camera and microphone permissions are required for live streaming.'
+            );
+          }
+        }
+      } catch (error) {
+        console.error('Error requesting permissions:', error);
+        Alert.alert('Error', 'Failed to request permissions. Please try again.');
+      }
+    };
+
+    requestPermissions();
   }, []);
 
+  // Start preview after permissions are granted - platform-specific timing
+  useEffect(() => {
+    if (!autoStart || !publisherRef.current || !permissionsGranted) return;
+    
+    // Both platforms start preview after permissions are granted
+    // Android: Faster timing (100ms), iOS: Slower timing (1000ms) for view layout
+    const delay = Platform.OS === 'android' ? 100 : 1000;
+    const timer = setTimeout(() => {
+      if (publisherRef.current) {
+        publisherRef.current.startPreview();
+      }
+    }, delay);
+    
+    return () => clearTimeout(timer);
+  }, [autoStart, permissionsGranted]);
+
+  // Handle stream events
   const handleEvent = (code, msg) => {
-    if (code === 2001) {
-      // Preview ready - start streaming
-      setTimeout(() => {
-        publisherRef.current?.start();
-      }, 500);
-    } else if (code === 2005) {
-      // Stream connected successfully
-      console.log('Streaming live!');
+    switch (code) {
+      case 2001: // Preview ready
+        previewReadyRef.current = true;
+        setIsPreviewReady(true);
+        if (onPreviewReady) {
+          onPreviewReady();
+        }
+        break;
+
+      case 2004: // Connection started
+        // Stream is connecting
+        break;
+
+      case 2005: // Stream connected
+        if (msg && msg.includes('write packet') && msg.includes('error')) {
+          // Write error
+          setIsStreaming(false);
+          if (onStreamError) {
+            onStreamError(code, msg);
+          }
+          if (Platform.OS === 'ios') {
+            Alert.alert(
+              'Streaming Error',
+              'Failed to send video data. Please ensure camera preview is visible before starting stream.'
+            );
+          }
+        } else {
+          // Success
+          setIsStreaming(true);
+          if (onStreamStart) {
+            onStreamStart();
+          }
+        }
+        break;
+
+      case 2002: // Stopped
+      case 2007: // Disconnected
+        setIsStreaming(false);
+        previewReadyRef.current = false;
+        setIsPreviewReady(false);
+        if (onStreamStop) {
+          onStreamStop();
+        }
+        break;
+
+      case 2003: // Error
+      case 2006: // Network timeout
+        setIsStreaming(false);
+        if (onStreamError) {
+          onStreamError(code, msg);
+        }
+        if (Platform.OS === 'ios' && code === 2003) {
+          Alert.alert(
+            'Streaming Error',
+            `Streaming error: ${msg || 'Unknown error'}\n\nPlease check your network connection and stream key.`,
+            [
+              { text: 'OK' },
+              {
+                text: 'Retry',
+                onPress: () => {
+                  setTimeout(() => {
+                    if (publisherRef.current && isPreviewReady) {
+                      publisherRef.current.start();
+                    }
+                  }, 1000);
+                },
+              },
+            ]
+          );
+        }
+        break;
+
+      default:
+        break;
     }
   };
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (publisherRef.current) {
+        try {
+          publisherRef.current.stop();
+          publisherRef.current.stopPreview();
+        } catch (error) {
+          // Ignore cleanup errors
+        }
+      }
+    };
+  }, []);
+
+  if (!streamURL) {
+    console.warn('⚠️ LiveStreamView: streamURL is required');
+    return null;
+  }
+
   return (
-    <View style={StyleSheet.absoluteFill}>
-      <RTMPStreamPublisher
-        ref={publisherRef}
-        style={StyleSheet.absoluteFill}
-        url="rtmps://global-live.mux.com:443/app/YOUR_STREAM_KEY"
-        debug={true} // Enable automatic event logging
-        audioParam={{
-          codecid: RTMPStreamPublisher.CODEC_ID_AAC,
-          profile: RTMPStreamPublisher.PROFILE_AAC_LC,
-          samplerate: 32000,
-          channels: 1,
-          bitrate: 32000,
-        }}
-        videoParam={{
-          codecid: RTMPStreamPublisher.CODEC_ID_H264,
-          profile: RTMPStreamPublisher.PROFILE_H264_MAIN,
-          width: 720,
-          height: 1280,
-          fps: 30,
-          bitrate: 1500000,
-        }}
-        frontCamera={false}
-        videoOrientation={RTMPStreamPublisher.VIDEO_ORIENTATION_PORTRAIT}
-        HWAccelEnable={true}
-        keyFrameInterval={30}
-        onEvent={handleEvent}
-      />
-    </View>
+    <RTMPStreamPublisher
+      ref={publisherRef}
+      style={[StyleSheet.absoluteFill, style]}
+      url={streamURL}
+      debug={debug}
+      audioParam={config.audioParam}
+      videoParam={config.videoParam}
+      frontCamera={frontCamera}
+      videoOrientation={RTMPStreamPublisher.VIDEO_ORIENTATION_PORTRAIT}
+      HWAccelEnable={Platform.OS === 'ios'} // iOS uses VideoToolbox, Android uses MediaCodec
+      keyFrameInterval={30}
+      onEvent={handleEvent}
+    />
   );
-}
+});
+
+LiveStreamView.displayName = 'LiveStreamView';
+
+export default LiveStreamView;
 ```
 
 ### Complete Example with Controls
