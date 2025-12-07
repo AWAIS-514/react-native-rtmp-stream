@@ -13,7 +13,6 @@ A production-ready React Native library for RTMP/RTMPS live streaming with compr
 
 ![RTMP Support](assets/gifs/rtmp-support.svg)
 
-```
 Stream to any RTMP server with full compatibility for Mux, YouTube Live, Twitch, and custom RTMP servers.
 
 ### iOS & Android Support
