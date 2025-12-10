@@ -1,8 +1,19 @@
 {
   "name": "react-native-rtmp-stream",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React Native library for RTMP/RTMPS live streaming with full iOS and Android support. Optimized for Mux, YouTube Live, and other streaming platforms.",
-  "main": "src/index",
+  "main": "src/index.jsx",
+  "files": [
+    "src/",
+    "android/src/",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "ios/",
+    "react-native-rtmp-stream.podspec",
+    "README.md",
+    "CHANGELOG.md",
+    "assets/"
+  ],
   "author": "Nitensclue <info@nitensclue.com>",
   "contributors": [
     {
@@ -11,10 +22,10 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/nitensclue/react-native-rtmp-stream",
+  "homepage": "https://github.com/Awais-514/react-native-rtmp-stream",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nitensclue/react-native-rtmp-stream.git"
+    "url": "https://github.com/Awais-514/react-native-rtmp-stream.git"
   },
   "keywords": [
     "react-native",
@@ -32,7 +43,10 @@
   "peerDependencies": {
     "react-native": ">=0.60.0"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests specified\""
   }
 }
