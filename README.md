@@ -1,6 +1,6 @@
 # react-native-rtmp-stream
 
-![react-native-rtmp-stream](assets/logo.svg)
+![react-native-rtmp-stream](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/logo.svg)
 
 [![npm version](https://img.shields.io/npm/v/react-native-rtmp-stream.svg)](https://www.npmjs.com/package/react-native-rtmp-stream)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-rtmp-stream.svg)](https://www.npmjs.com/package/react-native-rtmp-stream)
@@ -11,49 +11,49 @@ A production-ready React Native library for RTMP/RTMPS live streaming with compr
 
 ### Full RTMP/RTMPS Support
 
-![RTMP Support](assets/gifs/rtmp-support.svg)
+![RTMP Support](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/rtmp-support.svg)
 
 Stream to any RTMP server with full compatibility for Mux, YouTube Live, Twitch, and custom RTMP servers.
 
 ### iOS & Android Support
 
-![iOS Android](assets/gifs/ios-android.svg)
+![iOS Android](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/ios-android.svg)
 
 Native implementation for both platforms with a unified API. Write once, deploy everywhere.
 
 ### Hardware Acceleration
 
-![Hardware Acceleration](assets/gifs/hardware-accel.svg)
+![Hardware Acceleration](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/hardware-accel.svg)
 
 Automatic hardware encoding on iOS using VideoToolbox. Optimized performance with minimal CPU usage.
 
 ### Portrait & Landscape Orientation
 
-![Orientation Support](assets/gifs/orientation.svg)
+![Orientation Support](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/orientation.svg)
 
 Full orientation support with seamless rotation and orientation handling.
 
 ### Camera Controls
 
-![Camera Controls](assets/gifs/camera-controls.svg)
+![Camera Controls](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/camera-controls.svg)
 
 Complete camera control including front/back camera switching, torch, and zoom functionality.
 
 ### Audio/Video Configuration
 
-![AV Configuration](assets/gifs/av-config.svg)
+![AV Configuration](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/av-config.svg)
 
 Comprehensive configuration options for bitrate, resolution, frame rate, and codec settings.
 
 ### Mux Optimized
 
-![Mux Optimized](assets/gifs/mux-optimized.svg)
+![Mux Optimized](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/mux-optimized.svg)
 
 Tested and optimized for Mux streaming with production-ready integration.
 
 ### Production Ready
 
-![Production Ready](assets/gifs/production-ready.svg)
+![Production Ready](https://raw.githubusercontent.com/nitensclue/react-native-rtmp-stream/main/assets/gifs/production-ready.svg)
 
 Battle-tested in production environments with proven reliability and stability.
 
